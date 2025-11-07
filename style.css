@@ -1,0 +1,126 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #9fe3ff, #c2b5ff);
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffffd8;
+  padding: 40px 60px;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.screen.active {
+  display: flex;
+}
+
+button {
+  background: #6c63ff;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #5146d6;
+  transform: scale(1.05);
+}
+
+#choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#choices button {
+  flex: 1 1 40%;
+  padding: 18px 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-radius: 12px;
+  background-color: #6c63ff;
+  transition: all 0.25s ease;
+}
+
+#choices button:hover {
+  background-color: #4f47e0;
+  transform: scale(1.08);
+}
+
+/* 🏆 Leaderboard */
+#leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#leaderboard th, #leaderboard td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+#leaderboard th {
+  background: #6c63ff;
+  color: white;
+}
+
+#timer {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #222;
+}
+
+#question {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+}
+
+input {
+  height: 45px;
+  border-radius: 20px;
+  border: 2px solid #888;
+  width: 280px;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+  #choices button {
+    flex: 1 1 80%;
+  }
+  #question {
+    font-size: 1.5rem;
+  }
+}

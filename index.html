@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Mathemathic</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 🏠 HOME -->
+  <div class="screen active" id="home-screen">
+    <h1>🎮 Game Matemathics</h1>
+    <button id="start-btn">Mulai Permainan</button>
+  </div>
+
+  <!-- ✏️ USERNAME -->
+  <div class="screen" id="username-screen">
+    <h2>Masukkan Namamu</h2>
+    <input type="text" id="username-input" placeholder="Nama kamu..." />
+    <button id="confirm-username">Lanjut</button>
+  </div>
+
+  <!-- 🧮 GAME -->
+  <div class="screen" id="game-screen">
+    <h2 id="level-title"></h2>
+    <p id="timer">Waktu: <span id="time-left"></span></p>
+    <h3 id="question"></h3>
+    <div id="choices"></div>
+  </div>
+
+  <!-- ✅ LEVEL COMPLETE -->
+  <div class="screen" id="level-complete">
+    <h2>Level Selesai 🎉</h2>
+    <p>Skor kamu: <span id="score"></span></p>
+    <button id="next-level">Lanjut Level Berikutnya</button>
+    <button id="show-leaderboard">Lihat Leaderboard</button>
+  </div>
+
+  <!-- ❌ GAME OVER -->
+  <div class="screen" id="game-over">
+    <h2>Game Over 😢</h2>
+    <p>Skor kamu: <span id="final-score"></span></p>
+    <button id="show-leaderboard-over">Lihat Leaderboard</button>
+    <button id="back-home">Kembali ke Home</button>
+  </div>
+
+  <!-- 🏆 LEADERBOARD PAGE -->
+  <div class="screen" id="leaderboard-screen">
+    <h2>🏆 Leaderboard</h2>
+    <table id="leaderboard">
+      <thead>
+        <tr><th>Nama</th><th>Level</th><th>Skor</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="clear-leaderboard">Hapus Leaderboard</button>
+    <button id="back-home">Kembali ke Home</button>
+  </div>
+
+  <!-- 🎵 AUDIO -->
+  <audio id="click-sound" src="sounds/click.mp3"></audio>
+  <audio id="correct-sound" src="benar.mp3"></audio>
+  <audio id="wrong-sound" src="salah.mp3"></audio>
+  <audio id="yey" src="yey.mp3"></audio>
+  <audio id="bg-music" src="sounds/backsound.mp3" loop></audio>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
