@@ -26,7 +26,7 @@ let timeLeft = 10;
 let correctSound = document.getElementById('correct-sound');
 let wrongSound = document.getElementById('wrong-sound');
 let clickSound = document.getElementById('click-sound');
-
+backHomeBtn.onclick = () => showScreen(document.getElementById('home-screen'));
 const levels = {
   1: ['+', '-'],
   2: ['×', '÷'],
@@ -61,8 +61,6 @@ showLeaderboardOverBtn.onclick = () => {
   saveScore();
   updateLeaderboard();
 };
-
-backHomeBtn.onclick = () => showScreen(document.getElementById('home-screen'));
 
 clearLeaderboardBtn.onclick = () => {
   localStorage.removeItem('leaderboard');
