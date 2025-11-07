@@ -13,6 +13,7 @@ const leaderboardScreen = document.getElementById('leaderboard-screen');
 const leaderboardTable = document.getElementById('leaderboard').querySelector('tbody');
 const nextLevelBtn = document.getElementById('next-level');
 const backHomeBtn = document.getElementById('back-home');
+const backHomeBtn2 = document.getElementById('back-home2');
 const showLeaderboardBtn = document.getElementById('show-leaderboard');
 const showLeaderboardOverBtn = document.getElementById('show-leaderboard-over');
 const clearLeaderboardBtn = document.getElementById('clear-leaderboard');
@@ -23,53 +24,86 @@ let currentLevel = 1;
 let currentQuestion = 0;
 let timer;
 let timeLeft = 10;
+
 let correctSound = document.getElementById('correct-sound');
 let wrongSound = document.getElementById('wrong-sound');
 let clickSound = document.getElementById('click-sound');
-backHomeBtn.onclick = () => showScreen(document.getElementById('home-screen'));
+
 const levels = {
   1: ['+', '-'],
   2: ['×', '÷'],
   3: ['+', '-', '×']
 };
 
-startBtn.onclick = () => showScreen(usernameScreen);
+// ====== EVENT HANDLERS ======
+startBtn.onclick = () => {
+  playClick();
+  showScreen(usernameScreen);
+};
+
 confirmUsernameBtn.onclick = () => {
+  playClick();
   username = document.getElementById('username-input').value.trim();
   if (username) startGame();
 };
 
 nextLevelBtn.onclick = () => {
+  playClick();
   currentLevel++;
   if (currentLevel > 3) {
-    showScreen(leaderboardScreen);
     saveScore();
     updateLeaderboard();
+    showScreen(leaderboardScreen);
   } else {
     startGame();
   }
 };
 
 showLeaderboardBtn.onclick = () => {
-  showScreen(leaderboardScreen);
+  playClick();
   saveScore();
   updateLeaderboard();
+  showScreen(leaderboardScreen);
 };
 
 showLeaderboardOverBtn.onclick = () => {
-  showScreen(leaderboardScreen);
+  playClick();
   saveScore();
   updateLeaderboard();
+  showScreen(leaderboardScreen);
+};
+
+backHomeBtn.onclick = () => {
+  playClick();
+  resetGame();
+  showScreen(document.getElementById('home-screen'));
+};
+
+backHomeBtn2.onclick = () => {
+  playClick();
+  resetGame();
+  showScreen(document.getElementById('home-screen'));
 };
 
 clearLeaderboardBtn.onclick = () => {
+  playClick();
   localStorage.removeItem('leaderboard');
   updateLeaderboard();
 };
 
+// ====== CORE FUNCTIONS ======
 function showScreen(screen) {
+  clearInterval(timer); // <-- hentikan timer setiap ganti layar
   screens.forEach(s => s.classList.remove('active'));
   screen.classList.add('active');
+}
+
+function resetGame() {
+  clearInterval(timer);
+  score = 0;
+  currentLevel = 1;
+  currentQuestion = 0;
+  timeLeft = 10;
 }
 
 function startGame() {
@@ -85,8 +119,8 @@ function startLevel() {
 }
 
 function nextQuestion() {
+  clearInterval(timer);
   if (currentQuestion >= 3) {
-    clearInterval(timer);
     document.getElementById('score').textContent = score;
     showScreen(levelCompleteScreen);
     return;
@@ -98,9 +132,9 @@ function nextQuestion() {
   let b = Math.floor(Math.random() * 10) + 1;
   if (op === '÷') a = a * b;
 
-  let question = `${a} ${op} ${b}`;
-  let answer = eval(question.replace('×', '*').replace('÷', '/'));
-  questionEl.textContent = question;
+  const answer = calculate(a, b, op);
+  questionEl.textContent = `${a} ${op} ${b}`;
+
   const options = [answer];
   while (options.length < 4) {
     let rand = answer + Math.floor(Math.random() * 10 - 5);
@@ -117,9 +151,23 @@ function nextQuestion() {
   });
 
   currentQuestion++;
+  startTimer();
+}
+
+function calculate(a, b, op) {
+  switch (op) {
+    case '+': return a + b;
+    case '-': return a - b;
+    case '×': return a * b;
+    case '÷': return a / b;
+  }
+}
+
+function startTimer() {
+  clearInterval(timer);
   timeLeft = 8;
   timerEl.textContent = timeLeft;
-  clearInterval(timer);
+
   timer = setInterval(() => {
     timeLeft--;
     timerEl.textContent = timeLeft;
@@ -133,14 +181,14 @@ function nextQuestion() {
 
 function checkAnswer(selected, correct) {
   if (selected === correct) {
-    correctSound.play();
+    playCorrect();
     score += 10;
     nextQuestion();
   } else {
-    wrongSound.play();
+    playWrong();
     clearInterval(timer);
-    showScreen(gameOverScreen);
     document.getElementById('final-score').textContent = score;
+    showScreen(gameOverScreen);
   }
 }
 
@@ -156,4 +204,17 @@ function updateLeaderboard() {
   leaderboardTable.innerHTML = leaderboard
     .map(p => `<tr><td>${p.name}</td><td>${p.level}</td><td>${p.score}</td></tr>`)
     .join('');
+}
+
+// ====== SOUND HELPERS ======
+function playClick() {
+  if (clickSound) { clickSound.currentTime = 0; clickSound.play(); }
+}
+
+function playCorrect() {
+  if (correctSound) { correctSound.currentTime = 0; correctSound.play(); }
+}
+
+function playWrong() {
+  if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play(); }
 }
