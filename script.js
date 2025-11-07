@@ -194,17 +194,55 @@ function checkAnswer(selected, correct) {
 
 function saveScore() {
   let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-  leaderboard.push({ name: username, level: currentLevel, score });
-  leaderboard.sort((a, b) => b.score - a.score);
+
+  // Cek apakah user sudah ada di leaderboard
+  const existing = leaderboard.find(p => p.name === username);
+  if (existing) {
+    // Update kalau pemain dapat level atau skor lebih tinggi
+    if (currentLevel > existing.level || score > existing.score) {
+      existing.level = currentLevel;
+      existing.score = score;
+    }
+  } else {
+    leaderboard.push({ name: username, level: currentLevel, score });
+  }
+
+  // Urutkan berdasarkan level dulu, lalu skor
+  leaderboard.sort((a, b) => {
+    if (b.level === a.level) {
+      return b.score - a.score; // kalau level sama, urut skor tertinggi
+    }
+    return b.level - a.level; // urut level tertinggi
+  });
+
+  // Simpan 10 besar
   localStorage.setItem('leaderboard', JSON.stringify(leaderboard.slice(0, 10)));
 }
 
 function updateLeaderboard() {
   let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+
+  // Pastikan urutannya sesuai prioritas level > skor
+  leaderboard.sort((a, b) => {
+    if (b.level === a.level) {
+      return b.score - a.score;
+    }
+    return b.level - a.level;
+  });
+
   leaderboardTable.innerHTML = leaderboard
-    .map(p => `<tr><td>${p.name}</td><td>${p.level}</td><td>${p.score}</td></tr>`)
+    .map((p, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${p.name}</td>
+        <td>${p.level}</td>
+        <td>${p.score}</td>
+      </tr>
+    `)
     .join('');
 }
+
+
 
 // ====== SOUND HELPERS ======
 function playClick() {
